@@ -31,7 +31,7 @@
      "variables":{
       "ADBTarget":"DYNAMIK_INST_START DYNAMIK \"/adb?host=\"+ JSON.parse(\"$Result\").ip  DYNAMIK_INST_END",
       "ADBTargetMAC":"DYNAMIK_INST_START DYNAMIK JSON.parse(\"$Result\").mac  DYNAMIK_INST_END",
-      "PythonDriver":"http://localhost:5000",
+      "PythonDriver":"http://localhost:5384",
        "ADBTargetPORT":"5555",
        "MyStatus":"", 
        "ADBKeyCMD": "&command=input keyevent ",
