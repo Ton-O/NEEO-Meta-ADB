@@ -1,7 +1,7 @@
 { "name":"ADBdroid",
   "manufacturer":"TonO",
   "type":"TV",
-  "version":7,
+  "version":8,
   "variables": {"MYRESULT":""}, 
   "discover":{
     "welcomeheadertext":"Choose your Android Instance",
@@ -30,6 +30,8 @@
      },
      "variables":{
       "ADBTarget":"DYNAMIK_INST_START DYNAMIK \"/adb?host=\"+ JSON.parse(\"$Result\").ip  DYNAMIK_INST_END",
+      "ADBDisconnect":"DYNAMIK_INST_START DYNAMIK \"/disconnectadb?host=\"+ JSON.parse(\"$Result\").ip  DYNAMIK_INST_END",
+
       "ADBTargetMAC":"DYNAMIK_INST_START DYNAMIK JSON.parse(\"$Result\").mac  DYNAMIK_INST_END",
       "PythonDriver":"http://localhost:5384",
        "ADBTargetPORT":"5555",
@@ -85,7 +87,10 @@
      "buttons":{
        "Wake up":         {"tpe": "wol","command":"$ADBTargetMAC"},
        "POWER ON":           {"type":"static","command":"","evaldo":[{"test":true,"then": "__INITIALISE"}]},
-       "POWER OFF":           {"type":"static","command":"","evaldo":[{"test":true,"then": "__CLEANUP"}]},
+       "POWER OFF":           {"type":"static","command":"",
+          "evaldo":[
+            {"test":true,"then": "Disconnect"},
+            {"test":true,"then": "__CLEANUP"}]},
        "__INITIALISE":    {"type":"static","command":""},
        "Power Toggle":    {"type":"http-get", "command":"$PythonDriver/$ADBTarget$ADBKeyCMD$Power",         "queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]},
        "CURSOR UP":       {"type":"http-get", "command":"$PythonDriver/$ADBTarget$ADBKeyCMD$CursorUp",      "queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]},
@@ -121,7 +126,8 @@
        "Sleep":           {"type":"http-get", "command":"$PythonDriver/$ADBTarget$ADBKeyCMD$Sleep",         "queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]},
        "Current APP":     {"type":"http-get", "command":"$PythonDriver/$ADBTarget$ADBAPPCMD$CURRENT_APP_CMD","queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]},
        "Start KODI":      {"type":"http-get", "command":"$PythonDriver/$ADBTarget$ADBAPPCMD$KODI-start",    "queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]},
-       "Stop KODI":       {"type":"http-get", "command":"$PythonDriver/$ADBTarget$ADBAPPCMD$KODI-stop",     "queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]}
+       "Stop KODI":       {"type":"http-get", "command":"$PythonDriver/$ADBTarget$ADBAPPCMD$KODI-stop",     "queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]},
+       "Disconnect":    {"type":"http-get", "command":"$PythonDriver/$ADBDisconnect",                     "queryresult":"",  "evalwrite":[{"variable": "ActionStatus","value": "$Result"}]}
       }
    
   } 
